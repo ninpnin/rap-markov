@@ -4,13 +4,12 @@ filename = "data.txt"
 file_object = open(filename)
 
 def clean_str(s):
-	s = s.replace("(", "")
-	s = s.replace(")", "")
-	return s.replace("!", "")
+	return s.replace("!", "").replace("(", "").replace(")", "")
 
 # read last words of each row
 lines = file_object.readlines()
 endings = []
+
 for line in lines:
 	if len(line) > 0:
 		if len(line.split()) >0:
@@ -26,7 +25,7 @@ print(len(set(endings)))
 file_object = open(filename)
 
 text = file_object.read().lower()
-text = text.replace("\n", " RIVINVAIHTO ")
+text = text.replace("\n", " LINEBREAK ")
 text = clean_str(text)
 text_list = text.split()
 
@@ -34,7 +33,6 @@ text_list = text.split()
 # lists of following words, eg. {"hello" -> ["world"]}
 text_lookup = {}
 total_words = len(text_list)
-
 for ix, wd in enumerate(text_list):
 	new_word = text_list[(ix - 1 + total_words) % total_words]
 	if wd in text_lookup:
@@ -42,7 +40,6 @@ for ix, wd in enumerate(text_list):
 		text_lookup[wd] = new_lookup
 	else:
 		text_lookup[wd] = [new_word]
-
 
 # create line given the final word
 def create_line(ending):
@@ -56,24 +53,23 @@ def create_line(ending):
 
 	sen = ending
 	current = ending
-	while current != "RIVINVAIHTO":
+	while current != "LINEBREAK":
 		new_current = next(current)
 		sen = new_current + " " + sen
 		current = new_current
 
 	# add another line break if there would be one
 	# this separates verses from each other
-	if next(current) == "RIVINVAIHTO":
-		sen = " RIVINVAIHTO " + sen
-
+	if next(current) == "LINEBREAK":
+		sen = " LINEBREAK " + sen
 	return sen.strip()
 
-current_ending = random.choice(endings)
 
 # number of lines to be generated
 rnds = 1000
-
 sentence = ""
+current_ending = random.choice(endings)
+
 for i in range(0, rnds):
 	print(current_ending)
 	current_line = create_line(current_ending)
@@ -90,14 +86,14 @@ for i in range(0, rnds):
 	if random.uniform(0.0, 1.0) < p:
 		current_ending = random.choice(potential)
 	else:
-		print("VILLI KORTTI")
+		print("WILD CARD")
 		current_ending = random.choice(endings)
 
 print(sentence)
 
-sentences = sentence.split("RIVINVAIHTO RIVINVAIHTO")
+sentences = sentence.split("LINEBREAK LINEBREAK")
 for ix, sentence in enumerate(sentences[1:-1]):
-	sentence = sentence.replace("RIVINVAIHTO", "\n")
+	sentence = sentence.replace("LINEBREAK", "\n")
 
 	# skip Twitter unfriendly verses and one/two line verses
 	if len(sentence) < 280 and sentence.count("\n") > 2:
