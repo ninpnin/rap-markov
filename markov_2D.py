@@ -1,6 +1,6 @@
 import random
 
-filename = "lavis.txt"
+filename = "data.txt"
 file_object = open(filename)
 
 lines = file_object.readlines()
