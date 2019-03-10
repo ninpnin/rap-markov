@@ -3,30 +3,35 @@ import random
 filename = "data.txt"
 file_object = open(filename)
 
+def clean_str(s):
+	s = s.replace("(", "")
+	s = s.replace(")", "")
+	return s.replace("!", "")
+
+# read last words of each row
 lines = file_object.readlines()
 endings = []
 for line in lines:
 	if len(line) > 0:
 		if len(line.split()) >0:
 			ending = line.split()[-1].lower()
-			ending = ending.replace("(", "")
-			ending = ending.replace(")", "")
-			ending = ending.replace("!", "")
+			ending = clean_str(ending)
 			endings.append(ending)
 
 
 print(len(endings))
 print(len(set(endings)))
 
-file_object = open("lavis.txt")
+# read the whole file, transform into list of words
+file_object = open(filename)
 
 text = file_object.read().lower()
 text = text.replace("\n", " RIVINVAIHTO ")
-text = text.replace("(", "")
-text = text.replace(")", "")
-text = text.replace("!", "")
+text = clean_str(text)
 text_list = text.split()
 
+# generate dictionary of words with their corresponding
+# lists of following words, eg. {"hello" -> ["world"]}
 text_lookup = {}
 total_words = len(text_list)
 
@@ -38,8 +43,8 @@ for ix, wd in enumerate(text_list):
 	else:
 		text_lookup[wd] = [new_word]
 
-print("lookup table created")
 
+# create line given the final word
 def create_line(ending):
 	def next(wd):
 		potential = text_lookup[wd]
@@ -56,12 +61,16 @@ def create_line(ending):
 		sen = new_current + " " + sen
 		current = new_current
 
+	# add another line break if there would be one
+	# this separates verses from each other
 	if next(current) == "RIVINVAIHTO":
 		sen = " RIVINVAIHTO " + sen
 
 	return sen.strip()
 
 current_ending = random.choice(endings)
+
+# number of lines to be generated
 rnds = 1000
 
 sentence = ""
@@ -89,6 +98,8 @@ print(sentence)
 sentences = sentence.split("RIVINVAIHTO RIVINVAIHTO")
 for ix, sentence in enumerate(sentences[1:-1]):
 	sentence = sentence.replace("RIVINVAIHTO", "\n")
+
+	# skip Twitter unfriendly verses and one/two line verses
 	if len(sentence) < 280 and sentence.count("\n") > 2:
 		print("Säkeistö " + str(ix), "(" + str(len(sentence)) + "char) :")
 		for line in sentence.splitlines():
