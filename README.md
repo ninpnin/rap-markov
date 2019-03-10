@@ -1,6 +1,6 @@
 # rap-markov
 
-## Technicalities
+## How it works
 
 Since rap is based on rhymes, ie. the last words of consecutive rows rhythmically matching, the regular Markov chain approach fails to produce good results. To counter this, this algorithm first generates the last word of each row. After that, the rest of each row is generated as a normal Markov process.
 
@@ -10,4 +10,4 @@ For example, if the word "hello" (being followed by "world") has only occured on
 
 ## How to use it
 
-Just copy paste any (preferably large) set of lyrics into a text file. The default name you should use is __data.txt__, but this can easily be changed in the code.
+Just copy paste any (preferably large) set of lyrics into a text file. The default name of the text file is __data.txt__, but this can easily be changed from the code.
