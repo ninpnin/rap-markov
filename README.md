@@ -6,6 +6,13 @@ Niin ku äiti ompeli hameita
 Kaikki kuvat tosin osin kaameita 
 Valmis totuus muistuttaa lähinnä turhii haaveita
 ```
+
+```
+Through a curve of beauty could
+The watery white arms
+Made thee my heart
+I love
+```
  
 ## How it works
 
