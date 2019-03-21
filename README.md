@@ -1,5 +1,12 @@
 # rap-markov
 
+```
+Jauhetaan sut, ku prameita 
+Niin ku äiti ompeli hameita 
+Kaikki kuvat tosin osin kaameita 
+Valmis totuus muistuttaa lähinnä turhii haaveita
+```
+ 
 ## How it works
 
 Since rap is based on rhymes, ie. the last words of consecutive rows rhythmically matching, the regular Markov chain approach fails to produce good results. To counter this, this algorithm first generates the last word of each row. After that, the rest of each row is generated as a normal Markov process.
